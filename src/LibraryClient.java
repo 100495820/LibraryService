@@ -15,6 +15,14 @@ public class LibraryClient {
         // Example 4: Add a new book
         String params = "isbn=457&author=Adam Smith&title=Harry Potter&total=10&available=8";
         sendRequest("POST", baseUrl(), params);
+
+        // Example 5: Update a book
+        params = "isbn=457&author=Adam Smith&title=Harry Potter&total=10&available=9";
+        sendRequest("PUT", baseUrl(), params);
+
+        // Example 6: Delete a book
+        sendRequest("DELETE", baseUrl() + "?isbn=457", null);
+
     }
 
     private static String baseUrl() { return "http://localhost:8080/library"; }
