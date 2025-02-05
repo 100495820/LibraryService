@@ -10,17 +10,20 @@ public class LibraryClient {
         sendRequest("GET", baseUrl() + "?author=Adam%20Smith", null);
 
         // Example 3: Get book by ISBN
-        sendRequest("GET", baseUrl() + "?isbn=457", null);
+        sendRequest("GET", baseUrl() + "?isbn=978-0316769174", null);
 
-        // Example 4: Add a new book
+        // Example 4: Get book by title
+        sendRequest("GET", baseUrl() + "?title=The%20Wealth%20of%20Nations", null);
+
+        // Example 5: Add a new book
         String params = "isbn=457&author=Adam Smith&title=Harry Potter&total=10&available=8";
         sendRequest("POST", baseUrl(), params);
 
-        // Example 5: Update a book
+        // Example 6: Update a book
         params = "isbn=457&author=Adam Smith&title=Harry Potter&total=10&available=9";
         sendRequest("PUT", baseUrl(), params);
 
-        // Example 6: Delete a book
+        // Example 7: Delete a book
         sendRequest("DELETE", baseUrl() + "?isbn=457", null);
 
     }
