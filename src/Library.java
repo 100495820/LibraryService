@@ -20,8 +20,7 @@ public class Library {
         if (this.sctx != null) {
             loadBooksFromFile();
         } else {
-            // Fallback for testing
-            addSampleBooks();
+            throw new RuntimeException("ServletContext is null");
         }
     }
 
@@ -59,24 +58,6 @@ public class Library {
         } catch (IOException | NumberFormatException e) {
             throw new RuntimeException("Error loading books from CSV: " + e.getMessage());
         }
-    }
-
-    private void addSampleBooks() {
-        // Fallback sample data if CSV loading fails
-        books.put("978-0061120084", new Book(
-                "978-0061120084",
-                "Paulo Coelho",
-                "The Alchemist",
-                10,
-                7
-        ));
-        books.put("978-0544003415", new Book(
-                "978-0544003415",
-                "J.R.R. Tolkien",
-                "The Lord of the Rings",
-                15,
-                3
-        ));
     }
 
     public HashMap<String, Book> getMap() {
