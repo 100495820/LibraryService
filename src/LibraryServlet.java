@@ -33,10 +33,11 @@ public class LibraryServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) {
+        // Check if the request is for JSON response
         boolean json = false;
         String accept = request.getHeader("accept");
         if (accept != null && accept.contains("json")) json = true;
-
+        // Get the map of books
         HashMap<String, Book> map = this.library.getMap();
         String isbn = request.getParameter("isbn");
         String author = request.getParameter("author");
@@ -80,6 +81,7 @@ public class LibraryServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
+        //Get the book details from the request
         String isbn = request.getParameter("isbn");
         String author = request.getParameter("author");
         String title = request.getParameter("title");
@@ -88,7 +90,7 @@ public class LibraryServlet extends HttpServlet {
 
         if (isbn == null || author == null || title == null || total == null || available == null)
             throw new RuntimeException(Integer.toString(HttpServletResponse.SC_BAD_REQUEST));
-
+        //Get the total and available copies from string to integer
         int totalCopies = 0;
         try {
             totalCopies = Integer.parseInt(total);
@@ -118,7 +120,7 @@ public class LibraryServlet extends HttpServlet {
     public void doPut(HttpServletRequest request, HttpServletResponse response) {
         String isbn = null;
         String available = null;
-
+        //Get the ISBN and available copies from the request
         try (BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()))) {
             String data = br.readLine();
             String[] args = data.split("&");
@@ -135,6 +137,7 @@ public class LibraryServlet extends HttpServlet {
             throw new RuntimeException(Integer.toString(HttpServletResponse.SC_BAD_REQUEST));
 
         HashMap<String, Book> map = library.getMap();
+        //Get book by ISBN an update available copies
         Book book = map.get(isbn);
         if (book == null) {
             sendResponse(response, "Book not found.");
@@ -155,6 +158,7 @@ public class LibraryServlet extends HttpServlet {
 
     @Override
     public void doDelete(HttpServletRequest request, HttpServletResponse response) {
+        //get ISBN from the request find from map and remove it
         String isbn = request.getParameter("isbn");
         if (isbn == null) throw new RuntimeException(Integer.toString(HttpServletResponse.SC_BAD_REQUEST));
 
@@ -165,7 +169,7 @@ public class LibraryServlet extends HttpServlet {
         sendResponse(response, "Book " + isbn + " deleted.");
     }
 
-    // Disallow other HTTP methods
+    // Other HTTP methods that arenot used
     @Override
     public void doTrace(HttpServletRequest req, HttpServletResponse res) {  }
     @Override

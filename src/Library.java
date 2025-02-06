@@ -1,5 +1,4 @@
 import jakarta.servlet.ServletContext;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
 import org.json.JSONArray;
@@ -8,8 +7,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class Library {
     private HashMap<String, Book> books; // HashMap to store books with ISBN as key
