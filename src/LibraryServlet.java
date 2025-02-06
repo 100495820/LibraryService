@@ -1,3 +1,4 @@
+// LibraryServlet.java
 import jakarta.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,16 +14,20 @@ public class LibraryServlet extends HttpServlet {
     @Override
     public void init() {
         synchronized(this) {
+            // Initialize the library
             this.library = new Library();
             this.library.setServletContext(this.getServletContext());
         }
     }
 
+    // Send response to the client
     private void sendResponse(HttpServletResponse response, String payload) {
-        try {OutputStream out = response.getOutputStream();
+        try {
+            OutputStream out = response.getOutputStream();
             out.write(payload.getBytes());
             out.flush();
         } catch(Exception e) {
+            // Handle exceptions
             throw new RuntimeException(Integer.toString(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
         }
     }
@@ -38,32 +43,38 @@ public class LibraryServlet extends HttpServlet {
         String author = request.getParameter("author");
         String title = request.getParameter("title");
 
-        Object result=null;
+        Object result = null;
         synchronized(map) {
             if (isbn != null) {
+                // Get book by ISBN
                 result = map.get(isbn);
                 if (result == null) result = "Book with ISBN " + isbn + " not found.";
             } else if (author != null) {
+                // Get books by author
                 List<Book> booksByAuthor = new ArrayList<>();
                 for (Book book : map.values()) {
                     if (author.equalsIgnoreCase(book.getAuthor())) booksByAuthor.add(book);
                 }
                 result = booksByAuthor;
             } else if (title != null) {
+                // Get books by title
                 List<Book> booksByTitle = new ArrayList<>();
                 for (Book book : map.values()) {
                     if (title.equalsIgnoreCase(book.getTitle())) booksByTitle.add(book);
                 }
                 result = booksByTitle;
             } else {
+                // Get all books
                 result = map.values().toArray();
             }
         }
-        if (json){
+        if (json) {
+            // Send JSON response
             sendResponse(response, library.toJson(library.toXml(result)));
+        } else {
+            // Send XML response
+            sendResponse(response, library.toXml(result));
         }
-        else{
-        sendResponse(response, library.toXml(result));}
     }
 
     @Override
@@ -78,21 +89,20 @@ public class LibraryServlet extends HttpServlet {
             throw new RuntimeException(Integer.toString(HttpServletResponse.SC_BAD_REQUEST));
 
         int totalCopies = 0;
-        try{
-            totalCopies= Integer.parseInt(total);
-        }
-        catch (NumberFormatException e){
+        try {
+            totalCopies = Integer.parseInt(total);
+        } catch (NumberFormatException e) {
             throw new RuntimeException(Integer.toString(HttpServletResponse.SC_BAD_REQUEST));
         }
         int availableCopies = 0;
-        try{
-            availableCopies= Integer.parseInt(available);
-        }
-        catch (NumberFormatException e){
+        try {
+            availableCopies = Integer.parseInt(available);
+        } catch (NumberFormatException e) {
             throw new RuntimeException(Integer.toString(HttpServletResponse.SC_BAD_REQUEST));
         }
 
         try {
+            // Create a new book and add it to the library
             Book book = new Book(isbn, author, title, totalCopies, availableCopies);
             synchronized(library.getMap()) {
                 library.getMap().put(isbn, book);
@@ -133,6 +143,7 @@ public class LibraryServlet extends HttpServlet {
         try {
             int availableCopies = Integer.parseInt(available);
             synchronized(book) {
+                // Update available copies
                 book.setAvailableCopies(availableCopies);
             }
             sendResponse(response, "Available copies updated for ISBN " + isbn);
@@ -147,6 +158,7 @@ public class LibraryServlet extends HttpServlet {
         if (isbn == null) throw new RuntimeException(Integer.toString(HttpServletResponse.SC_BAD_REQUEST));
 
         synchronized(library.getMap()) {
+            // Remove the book from the library
             library.getMap().remove(isbn);
         }
         sendResponse(response, "Book " + isbn + " deleted.");

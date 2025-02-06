@@ -1,3 +1,4 @@
+// Book.java
 public class Book {
     static final long serialVersionUID = 1L;
     private String isbn; // Unique identifier (cannot be changed)
@@ -9,8 +10,8 @@ public class Book {
     private String modifiable;
     private String modify_mode;
 
+    // Default constructor for XMLEncoder
     public Book() {
-        // Default constructor for XMLEncoder
         this.isbn = null;
         this.author = null;
         this.title = null;
@@ -21,6 +22,7 @@ public class Book {
         this.modifiable = null;
     }
 
+    // Constructor with parameters
     public Book(String isbn, String author, String title, int totalCopies, int availableCopies) {
         this.isbn = isbn;
         this.author = author;
