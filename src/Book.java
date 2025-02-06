@@ -1,4 +1,3 @@
-// Book.java
 public class Book {
     static final long serialVersionUID = 1L;
     private String isbn; // Unique identifier (cannot be changed)

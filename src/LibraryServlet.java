@@ -6,9 +6,9 @@ import java.util.*;
 
 public class LibraryServlet extends HttpServlet {
     static final long serialVersionUID = 1L;
-    private Library library;
+    private Library library; // Library instance to manage books
 
-    public static String base_url = "http://localhost:8080/library";
+    public static String base_url = "http://localhost:8080/library"; // Base URL for the library
 
     @Override
     public void init() {
@@ -19,7 +19,7 @@ public class LibraryServlet extends HttpServlet {
         }
     }
 
-    // Send response to the client
+    // Method to send response to the client
     private void sendResponse(HttpServletResponse response, String payload) {
         try {
             OutputStream out = response.getOutputStream();
@@ -70,13 +70,14 @@ public class LibraryServlet extends HttpServlet {
             }
         }
         if (json) {
-             //Send JSON response
+            // Send JSON response
             sendResponse(response, library.toJson(library.toXml(result)));
         } else {
-             //Send XML response
+            // Send XML response
             sendResponse(response, library.toXml(result));
         }
     }
+
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
         String isbn = request.getParameter("isbn");
@@ -166,9 +167,9 @@ public class LibraryServlet extends HttpServlet {
 
     // Disallow other HTTP methods
     @Override
-    public void doTrace(HttpServletRequest req, HttpServletResponse res) { /* ... */ }
+    public void doTrace(HttpServletRequest req, HttpServletResponse res) {  }
     @Override
-    public void doHead(HttpServletRequest req, HttpServletResponse res) { /* ... */ }
+    public void doHead(HttpServletRequest req, HttpServletResponse res) {  }
     @Override
-    public void doOptions(HttpServletRequest req, HttpServletResponse res) { /* ... */ }
+    public void doOptions(HttpServletRequest req, HttpServletResponse res) {  }
 }

@@ -12,14 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Library {
-    private HashMap<String, Book> books;
-    private ServletContext sctx;
+    private HashMap<String, Book> books; // HashMap to store books with ISBN as key
+    private ServletContext sctx; // ServletContext to get the real path of the JSON file
 
+    // Constructor to initialize the books HashMap
     public Library() {
         this.books = new HashMap<>();
         // Initialization will be done through init() after servlet context is set
     }
 
+    // Method to initialize the library by loading books from the JSON file
     public void initialize() {
         if (this.sctx != null) {
             loadBooksFromFile();
@@ -28,7 +30,7 @@ public class Library {
         }
     }
 
-
+    // Method to load books from the JSON file
     private void loadBooksFromFile() {
         try {
             // Read JSON file
@@ -53,6 +55,7 @@ public class Library {
         }
     }
 
+    // Method to get the map of books
     public HashMap<String, Book> getMap() {
         if (this.sctx == null) {
             return null;
@@ -60,15 +63,18 @@ public class Library {
         return this.books;
     }
 
+    // Method to set the servlet context and initialize the library
     public void setServletContext(ServletContext sctx) {
         this.sctx = sctx;
         initialize();
     }
 
+    // Method to get the servlet context
     public ServletContext getServletContext() {
         return this.sctx;
     }
 
+    // Method to convert an object to XML
     public String toXml(Object obj) {
         String xml = null;
         try {
@@ -78,39 +84,15 @@ public class Library {
             encoder.close();
             xml = out.toString();
         } catch (Exception e) {}
-            return xml;
-
-
+        return xml;
     }
 
+    // Method to convert XML to JSON
     public String toJson(String xml) {
         try {
             JSONObject jsonObj = XML.toJSONObject(xml);
             return jsonObj.toString(3);
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) {}
         return null;
-    }
-
-    // Additional helper methods
-    public List<Book> searchByAuthor(String author) {
-        List<Book> results = new ArrayList<>();
-        for (Book book : books.values()) {
-            if (book.getAuthor().equalsIgnoreCase(author)) {
-                results.add(book);
-            }
-        }
-        return results;
-    }
-
-    public List<Book> searchByTitle(String title) {
-        List<Book> results = new ArrayList<>();
-        for (Book book : books.values()) {
-            if (book.getTitle().equalsIgnoreCase(title)) {
-                results.add(book);
-            }
-        }
-        return results;
     }
 }
