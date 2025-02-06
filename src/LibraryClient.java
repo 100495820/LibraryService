@@ -9,15 +9,15 @@ public class LibraryClient {
         System.out.println("\n\n");
         System.out.println("Example 2: Get books by author");
         // Example 2: Get books by author
-        sendRequest("GET", baseUrl() + "?author=Adam%20Smith", null);
+        sendRequest("GET", baseUrl() + "?author=Paulo%20Coelho", null);
         System.out.println("\n\n");
         System.out.println("Example 3: Get books by ISBN");
         // Example 3: Get book by ISBN
-        sendRequest("GET", baseUrl() + "?isbn=978-0316769174", null);
+        sendRequest("GET", baseUrl() + "?isbn=978-0060850524", null);
         System.out.println("\n\n");
         System.out.println("Example 4: Get book by title");
         // Example 4: Get book by title
-        sendRequest("GET", baseUrl() + "?title=The%20Wealth%20of%20Nations", null);
+        sendRequest("GET", baseUrl() + "?title=The%20Alchemist", null);
         System.out.println("\n\n");
         System.out.println("Example 5: Add a new book");
         // Example 5: Add a new book

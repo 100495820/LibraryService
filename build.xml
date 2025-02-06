@@ -157,7 +157,7 @@
     <copy todir="${build.dir}/WEB-INF/data">
       <fileset dir="${src.dir}">
         <include name="*.db"/>
-        <include name="*.csv"/>
+        <include name="*.json"/>
 
       </fileset>
     </copy>

@@ -1,0 +1,72 @@
+[
+    {
+        "isbn": "978-0451524935",
+        "author": "George Orwell",
+        "title": "1984",
+        "totalCopies": 20,
+        "availableCopies": 15
+    },
+    {
+        "isbn": "978-0446310789",
+        "author": "Harper Lee",
+        "title": "To Kill a Mockingbird",
+        "totalCopies": 15,
+        "availableCopies": 10
+    },
+    {
+        "isbn": "978-0743273565",
+        "author": "F. Scott Fitzgerald",
+        "title": "The Great Gatsby",
+        "totalCopies": 18,
+        "availableCopies": 12
+    },
+    {
+        "isbn": "978-1503280786",
+        "author": "Herman Melville",
+        "title": "Moby-Dick",
+        "totalCopies": 12,
+        "availableCopies": 8
+    },
+    {
+        "isbn": "978-1503290563",
+        "author": "Jane Austen",
+        "title": "Pride and Prejudice",
+        "totalCopies": 20,
+        "availableCopies": 18
+    },
+    {
+        "isbn": "978-0316769488",
+        "author": "J.D. Salinger",
+        "title": "The Catcher in the Rye",
+        "totalCopies": 15,
+        "availableCopies": 10
+    },
+    {
+        "isbn": "978-0547928227",
+        "author": "J.R.R. Tolkien",
+        "title": "The Hobbit",
+        "totalCopies": 25,
+        "availableCopies": 20
+    },
+    {
+        "isbn": "978-1408855652",
+        "author": "J.K. Rowling",
+        "title": "Harry Potter and the Philosopher's Stone",
+        "totalCopies": 30,
+        "availableCopies": 25
+    },
+    {
+        "isbn": "978-0060850524",
+        "author": "Aldous Huxley",
+        "title": "Brave New World",
+        "totalCopies": 15,
+        "availableCopies": 10
+    },
+    {
+        "isbn": "978-0062315007",
+        "author": "Paulo Coelho",
+        "title": "The Alchemist",
+        "totalCopies": 20,
+        "availableCopies": 15
+    }
+]

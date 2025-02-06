@@ -1,4 +1,3 @@
-// LibraryServlet.java
 import jakarta.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -47,36 +46,37 @@ public class LibraryServlet extends HttpServlet {
         synchronized(map) {
             if (isbn != null) {
                 // Get book by ISBN
-                result = map.get(isbn);
+                result = map.get(isbn.trim());
                 if (result == null) result = "Book with ISBN " + isbn + " not found.";
             } else if (author != null) {
                 // Get books by author
                 List<Book> booksByAuthor = new ArrayList<>();
                 for (Book book : map.values()) {
-                    if (author.equalsIgnoreCase(book.getAuthor())) booksByAuthor.add(book);
+                    if (author.trim().equalsIgnoreCase(book.getAuthor())) booksByAuthor.add(book);
                 }
                 result = booksByAuthor;
+                if (booksByAuthor.isEmpty()) result = "Book with Author " + author + " not found.";
             } else if (title != null) {
                 // Get books by title
                 List<Book> booksByTitle = new ArrayList<>();
                 for (Book book : map.values()) {
-                    if (title.equalsIgnoreCase(book.getTitle())) booksByTitle.add(book);
+                    if (title.trim().equalsIgnoreCase(book.getTitle())) booksByTitle.add(book);
                 }
                 result = booksByTitle;
+                if (booksByTitle.isEmpty()) result = "Book with title " + title + " not found.";
             } else {
                 // Get all books
                 result = map.values().toArray();
             }
         }
         if (json) {
-            // Send JSON response
+             //Send JSON response
             sendResponse(response, library.toJson(library.toXml(result)));
         } else {
-            // Send XML response
+             //Send XML response
             sendResponse(response, library.toXml(result));
         }
     }
-
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
         String isbn = request.getParameter("isbn");

@@ -1,8 +1,12 @@
 import jakarta.servlet.ServletContext;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
+import org.json.JSONArray;
 import java.beans.XMLEncoder;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,39 +28,28 @@ public class Library {
         }
     }
 
+
     private void loadBooksFromFile() {
-        String relativePath = "/WEB-INF/data/books.csv";
-        String absolutePath = sctx.getRealPath(relativePath);
+        try {
+            // Read JSON file
+            String path = sctx.getRealPath("/WEB-INF/data/books.json");
+            String content = new String(Files.readAllBytes(Paths.get(path)));
 
-        try (BufferedReader br = new BufferedReader(new FileReader(absolutePath))) {
-            String line;
-            boolean headerSkipped = false;
+            // Parse JSON array
+            JSONArray jsonArray = new JSONArray(content);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String isbn = jsonObject.getString("isbn");
+                String author = jsonObject.getString("author");
+                String title = jsonObject.getString("title");
+                int totalCopies = jsonObject.getInt("totalCopies");
+                int availableCopies = jsonObject.getInt("availableCopies");
 
-            while ((line = br.readLine()) != null) {
-                if (!headerSkipped) {
-                    headerSkipped = true;
-                    continue;
-                }
-
-                String[] parts = line.split(",");
-                if (parts.length == 5) {
-                    String isbn = parts[0].trim();
-                    String author = parts[1].trim();
-                    String title = parts[2].trim();
-                    int totalCopies = Integer.parseInt(parts[3].trim());
-                    int availableCopies = Integer.parseInt(parts[4].trim());
-
-                    books.put(isbn, new Book(
-                            isbn,
-                            author,
-                            title,
-                            totalCopies,
-                            availableCopies
-                    ));
-                }
+                // Add to HashMap
+                books.put(isbn, new Book(isbn, author, title, totalCopies, availableCopies));
             }
-        } catch (IOException | NumberFormatException e) {
-            throw new RuntimeException("Error loading books from CSV: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("Error loading books from JSON: " + e.getMessage());
         }
     }
 
